@@ -53,7 +53,7 @@ def sign_with_jwt(message, channel, products=[]):
     message['jwt'] = token
     return message
 
-def on_message(ws, message):
+def on_message(ws, message ):
     data = json.loads(message)
     with open("Output_USD-2.txt", "a") as f:
         f.write(json.dumps(data) + "\n")
@@ -96,9 +96,11 @@ def on_open(ws):
     #print(products2)
     #products = str(products)
     #products = ids[0]
-    products = ["00-USD"]
+    #products = ["00-USD"]
+    products = list(set(products2[0:10]))
     print(products)
-    subscribe_to_products(ws, products, CHANNEL_NAMES["level2"])
+    print(products[0])
+    subscribe_to_products(ws, [products[0]], CHANNEL_NAMES["level2"])
 
 def start_websocket():
     ws = websocket.WebSocketApp(WS_API_URL, on_open=on_open, on_message=on_message)
